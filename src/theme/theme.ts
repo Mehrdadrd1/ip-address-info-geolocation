@@ -11,6 +11,7 @@ export const theme: DefaultTheme = {
       secondary: "#F9F5FF",
       disable: "#7E838F",
     },
+    error: "#dd141e",
   },
   breakpoints: {
     mobile: "600px",
