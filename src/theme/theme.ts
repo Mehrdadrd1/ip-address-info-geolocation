@@ -1,7 +1,9 @@
-export const theme = {
+import { DefaultTheme } from "styled-components";
+
+export const theme: DefaultTheme = {
   colors: {
     background: "#FAFAFA",
-    GradientColor: "linear-gradient(45deg,#1043A6,#0C317C)",
+    gradientColor: "linear-gradient(45deg,#0C317C,#1043A6)",
     commonWhite: "#FFFFFF",
     border: "#EAECF0",
     text: {
@@ -9,8 +11,11 @@ export const theme = {
       secondary: "#F9F5FF",
       disable: "#7E838F",
     },
-    breakpoints: {
-      mobile: "600px",
-    },
+  },
+  breakpoints: {
+    mobile: "600px",
+  },
+  fonts: {
+    main: "IRANSansWeb, sans-serif",
   },
 };
