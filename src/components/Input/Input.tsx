@@ -1,0 +1,25 @@
+import styled from "styled-components";
+
+export const Input = styled.input((props) => ({
+  padding: "10px",
+  border: `1px solid ${props.theme.colors.border}`,
+  borderRadius: "8px",
+  width: "100%",
+  minHeight: "42px",
+
+  "&::placeholder": {
+    float: "right",
+    fontFamily: props.theme.fonts.main,
+    color: props.theme.colors.text.disable,
+    fontSize: "14px",
+    fontWeight: "400",
+    lineHeight: "21px",
+  },
+  "&:hover": {
+    borderColor: "#1043A6",
+  },
+  "&:focus": {
+    outline: "none", // Removes the default focus outline
+    border: `1px solid #1043A6`, // Uses the theme's border color on focus
+  },
+}));
