@@ -12,8 +12,10 @@ import "./Home.css";
 import { Controller, useForm } from "react-hook-form";
 import { IPField } from "../../Types";
 import { ipv4Regex, ipv6Regex } from "../../utils";
+import { useGetIpGeolocation } from "../../services";
 
 const Home = () => {
+  const { mutateAsync: IpRequest, ...rest } = useGetIpGeolocation();
   const [btnIsHovered, setBtnIsHovered] = useState(false);
 
   const {
@@ -27,9 +29,16 @@ const Home = () => {
     },
   });
 
-  const handleIpAdrress = useCallback((data: IPField) => {
-    console.log("🚀 ~ handleIpAdrress ~ data:", data);
-  }, []);
+  // console.log("isPending", rest.isPending);
+  const handleIpAdrress = useCallback(
+    (data: IPField) => {
+      const IpAddress = data.ip;
+      // IpRequest();
+      IpRequest(IpAddress);
+      console.log("🚀 ~ handleIpAdrress ~ data:", data);
+    },
+    [IpRequest]
+  );
 
   return (
     <div className="homeRoot">
@@ -54,8 +63,6 @@ const Home = () => {
                 rules={{
                   required: "IP را وارد کنید",
                   validate: (value) => {
-                    console.log(1, ipv4Regex.test(value));
-                    console.log(2, ipv6Regex.test(value));
                     return (
                       ipv4Regex.test(value) ||
                       ipv6Regex.test(value) ||

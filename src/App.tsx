@@ -5,13 +5,24 @@ import { Router } from "./routes";
 import { AppContextProvider } from "./contexts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        retry: 0,
+      },
+    },
+  });
   return (
     <AppContextProvider>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <RouterProvider router={Router} />
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={Router} />
+        </QueryClientProvider>
         <ToastContainer
           bodyStyle={{ fontFamily: theme.fonts.main }}
           position="bottom-left"
