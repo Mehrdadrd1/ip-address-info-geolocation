@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'IRANSansWeb', sans-serif; 
+    font-family: ${(props) => props.theme.fonts.main}; 
     background-color: ${(props) => props.theme.colors.background};
     color: ${(props) => props.theme.colors.text};
     margin: 0 auto;

@@ -5,4 +5,4 @@ export { Text } from "./Text/Text";
 export { Title } from "./Title/Title";
 export { Input } from "./Input/Input";
 export { default as Timer } from "./Timer/Timer";
-export { default as Otp } from "./";
+export { default as Otp } from "./Otp/Otp";

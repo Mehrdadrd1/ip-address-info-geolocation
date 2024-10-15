@@ -2,35 +2,46 @@ import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { GoArrowLeft } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import padro from "../../assets/padro.svg";
-import {
-  Button,
-  Container,
-  HelperText,
-  Input,
-  Text,
-  Timer,
-  Title,
-} from "../../components";
+import { Button, Container, Otp, Text, Timer, Title } from "../../components";
 import { Link } from "../../components/Link/Link";
 import { useAppContext } from "../../contexts";
 import "./Verification.css";
 
-interface PhonNumberInterface {
-  phoneNumber: string;
+interface otpField {
+  otp: string;
 }
 
 const Verification = () => {
   const navigate = useNavigate();
   const { phoneNumber } = useAppContext();
-  console.log("🚀 ~ Verification ~ phoneNumber:", phoneNumber);
-  const { control, handleSubmit } = useForm<PhonNumberInterface>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting, isValid, isDirty },
+  } = useForm<otpField>({
     mode: "all",
+    defaultValues: { otp: "" },
   });
 
-  const handleSubmitForm = useCallback((data: PhonNumberInterface) => {
-    console.log("🚀 ~ handleSubmitForm ~ data:", data);
-  }, []);
+  const handleSubmitForm = useCallback(
+    ({ otp }: otpField) => {
+      return new Promise<void>((resolve, reject) => {
+        setTimeout(() => {
+          if (otp === "1111") {
+            resolve();
+            navigate("/home");
+            toast.success("شما با موفقیت وارد شدید.");
+          } else {
+            reject();
+            toast.error("کد وارد شده صحیح نمی‌باشد.");
+          }
+        }, 2000);
+      });
+    },
+    [navigate]
+  );
 
   const handleNavigateBack = useCallback(() => {
     navigate("/");
@@ -60,15 +71,19 @@ const Verification = () => {
       <form onSubmit={handleSubmit(handleSubmitForm)} className="form">
         <div className="verificationInput">
           <Controller
-            name="phoneNumber"
             control={control}
-            rules={{ required: "شماره موبایل الزامی می‌باشد." }}
-            render={({ field, fieldState: { error } }) => (
-              <>
-                /
-                <Input type="text" placeholder="کد ورود" {...field} />
-                {error && <HelperText>{error.message}</HelperText>}
-              </>
+            name="otp"
+            rules={{ minLength: 4 }}
+            disabled={isSubmitting}
+            render={({ field: { value, onChange, onBlur, ref, disabled } }) => (
+              <Otp
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                inputRef={ref}
+                disabled={disabled}
+                config={[1, 1, 1, 1]}
+              />
             )}
           />
         </div>
@@ -84,7 +99,9 @@ const Verification = () => {
           </div>
         </div>
         <div className="loginBtn">
-          <Button type="submit">ارسال کد‌ تایید</Button>
+          <Button type="submit" disabled={!isDirty || !isValid}>
+            ارسال کد‌ تایید
+          </Button>
         </div>
       </form>
     </Container>

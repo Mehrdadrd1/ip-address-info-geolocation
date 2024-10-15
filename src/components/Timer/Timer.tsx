@@ -1,9 +1,8 @@
-import { FC, useEffect, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import { Link } from "../Link/Link";
 import { TimerProps } from "../../Types";
 
 const Timer: FC<TimerProps> = ({ handleTimerButton, timerInSeconds }) => {
-  console.log("🚀 ~ handleTimerButton:", handleTimerButton);
   const [timeLeft, setTimeLeft] = useState(() => timerInSeconds);
 
   useEffect(() => {
@@ -36,4 +35,4 @@ const Timer: FC<TimerProps> = ({ handleTimerButton, timerInSeconds }) => {
   );
 };
 
-export default Timer;
+export default memo(Timer);
