@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { GoArrowLeft } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import padro from "../../assets/padro.svg";
 import {
+  ArrowLeft,
   Button,
   Container,
   LoadinfSvg,
@@ -61,12 +61,12 @@ const Verification = () => {
         <div className="verificationLogo">
           <img src={padro} alt="padro-logo" />
         </div>
-        <div style={{ position: "absolute", left: "7%" }}>
-          <GoArrowLeft
-            onClick={handleNavigateBack}
-            size={25}
-            className="arrow"
-          />
+        <div
+          className="arrow"
+          onClick={handleNavigateBack}
+          style={{ position: "absolute", left: "7%" }}
+        >
+          <ArrowLeft />
         </div>
       </div>
       <div className="verificationTitles">

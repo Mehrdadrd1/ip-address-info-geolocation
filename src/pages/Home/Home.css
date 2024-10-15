@@ -1,0 +1,32 @@
+.homeRoot {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("/images/backgroundPattern.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeText {
+  margin-top: 12px;
+}
+
+.homeSearch {
+  margin-top: 32px;
+  width: 610px;
+  height: 56px;
+  display: flex;
+}
+
+#homeInput {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+#homeBtn {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}

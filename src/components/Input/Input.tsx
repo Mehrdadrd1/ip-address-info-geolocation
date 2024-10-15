@@ -16,6 +16,10 @@ export const Input = styled.input((props) => ({
     lineHeight: "21px",
   },
   "&:hover": {
-    borderColor: props.theme.colors.gradientColor,
+    borderColor: "#1043A6",
+  },
+  "&:focus": {
+    outline: "none", // Removes the default focus outline
+    border: `1px solid #1043A6`, // Uses the theme's border color on focus
   },
 }));
