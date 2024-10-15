@@ -16,10 +16,7 @@ import {
 import { Link } from "../../components/Link/Link";
 import { useAppContext } from "../../contexts";
 import "./Verification.css";
-
-interface otpField {
-  otp: string;
-}
+import { OtpField } from "../../Types";
 
 const Verification = () => {
   const navigate = useNavigate();
@@ -28,13 +25,13 @@ const Verification = () => {
     control,
     handleSubmit,
     formState: { isSubmitting, isValid, isDirty },
-  } = useForm<otpField>({
+  } = useForm<OtpField>({
     mode: "all",
     defaultValues: { otp: "" },
   });
 
   const handleSubmitForm = useCallback(
-    ({ otp }: otpField) => {
+    ({ otp }: OtpField) => {
       return new Promise<void>((resolve, reject) => {
         setTimeout(() => {
           if (otp === "1111") {

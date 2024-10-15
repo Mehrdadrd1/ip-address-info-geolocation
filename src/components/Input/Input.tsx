@@ -6,14 +6,12 @@ export const Input = styled.input((props) => ({
   borderRadius: "8px",
   width: "100%",
   minHeight: "42px",
-
+  textAlign: "center",
   "&::placeholder": {
-    float: "right",
     fontFamily: props.theme.fonts.main,
     color: props.theme.colors.text.disable,
     fontSize: "14px",
     fontWeight: "400",
-    lineHeight: "21px",
   },
   "&:hover": {
     borderColor: "#1043A6",

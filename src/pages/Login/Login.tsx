@@ -15,10 +15,8 @@ import { Link } from "../../components/Link/Link";
 import { useAppContext } from "../../contexts";
 import "./Login.css";
 import { toast } from "react-toastify";
-
-interface PhonNumberInterface {
-  phoneNumber: number;
-}
+import { PhonNumberInterface } from "../../Types";
+import { mobilePhoneRegex } from "../../utils";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,7 +35,6 @@ const Login = () => {
     control,
     handleSubmit,
     formState: { isSubmitting, isValid },
-    // setValue,
   } = useForm<PhonNumberInterface>({
     mode: "all",
     defaultValues: {
@@ -78,7 +75,7 @@ const Login = () => {
                 message: "شماره تماس باید حداکثر 11 رقم باشد",
               },
               pattern: {
-                value: /((0?9)|(\+?989))\d{9}/g,
+                value: mobilePhoneRegex,
                 message: "شماره موبایل معتبر نمی‌باشد.",
               },
             }}
@@ -86,6 +83,7 @@ const Login = () => {
               return (
                 <>
                   <Input
+                    dir="ltr"
                     disabled={isSubmitting}
                     type="tel"
                     placeholder="شماره موبایل"
