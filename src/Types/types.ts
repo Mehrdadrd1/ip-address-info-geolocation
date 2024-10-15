@@ -3,7 +3,7 @@ export interface TitleProps {
 }
 
 export interface ButtonProps {
-  disabled: boolean;
+  isSubmitting?: boolean;
 }
 
 export type AppContextProps = {

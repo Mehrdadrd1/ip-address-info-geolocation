@@ -7,12 +7,14 @@ import {
   Container,
   HelperText,
   Input,
+  LoadinfSvg,
   Text,
   Title,
 } from "../../components";
 import { Link } from "../../components/Link/Link";
 import { useAppContext } from "../../contexts";
 import "./Login.css";
+import { toast } from "react-toastify";
 
 interface PhonNumberInterface {
   phoneNumber: number;
@@ -34,7 +36,7 @@ const Login = () => {
   const {
     control,
     handleSubmit,
-    formState: { isValid },
+    formState: { isSubmitting, isValid },
     // setValue,
   } = useForm<PhonNumberInterface>({
     mode: "all",
@@ -44,9 +46,11 @@ const Login = () => {
   });
 
   const handleSubmitForm = useCallback(
-    (data: PhonNumberInterface) => {
+    async (data: PhonNumberInterface) => {
+      await new Promise<void>((res) => setTimeout(res, 1000));
       setPhoneNumber(data.phoneNumber);
       navigate("/verification");
+      toast.info("کد ورود 1111 می‌باشد");
     },
     [navigate, setPhoneNumber]
   );
@@ -81,7 +85,12 @@ const Login = () => {
             render={({ field: { ...field }, fieldState: { error } }) => {
               return (
                 <>
-                  <Input type="tel" placeholder="شماره موبایل" {...field} />
+                  <Input
+                    disabled={isSubmitting}
+                    type="tel"
+                    placeholder="شماره موبایل"
+                    {...field}
+                  />
                   {error && <HelperText>{error.message}</HelperText>}
                 </>
               );
@@ -89,9 +98,15 @@ const Login = () => {
           />
         </div>
         <div className="loginBtn">
-          <Button type="submit" disabled={!isValid}>
-            ارسال کد‌ تایید
-          </Button>
+          {isSubmitting ? (
+            <Button type="submit" isSubmitting={isSubmitting}>
+              <LoadinfSvg />
+            </Button>
+          ) : (
+            <Button type="submit" disabled={!isValid}>
+              ارسال کد‌ تایید
+            </Button>
+          )}
         </div>
       </form>
       <div className="loginCaptin">

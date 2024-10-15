@@ -4,7 +4,15 @@ import { GoArrowLeft } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import padro from "../../assets/padro.svg";
-import { Button, Container, Otp, Text, Timer, Title } from "../../components";
+import {
+  Button,
+  Container,
+  LoadinfSvg,
+  Otp,
+  Text,
+  Timer,
+  Title,
+} from "../../components";
 import { Link } from "../../components/Link/Link";
 import { useAppContext } from "../../contexts";
 import "./Verification.css";
@@ -37,7 +45,7 @@ const Verification = () => {
             reject();
             toast.error("کد وارد شده صحیح نمی‌باشد.");
           }
-        }, 2000);
+        }, 1000);
       });
     },
     [navigate]
@@ -99,9 +107,15 @@ const Verification = () => {
           </div>
         </div>
         <div className="loginBtn">
-          <Button type="submit" disabled={!isDirty || !isValid}>
-            ارسال کد‌ تایید
-          </Button>
+          {isSubmitting ? (
+            <Button type="submit" isSubmitting={isSubmitting}>
+              <LoadinfSvg />
+            </Button>
+          ) : (
+            <Button type="submit" disabled={!isDirty || !isValid}>
+              ارسال کد‌ تایید
+            </Button>
+          )}
         </div>
       </form>
     </Container>

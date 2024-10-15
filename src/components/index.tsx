@@ -6,3 +6,4 @@ export { Title } from "./Title/Title";
 export { Input } from "./Input/Input";
 export { default as Timer } from "./Timer/Timer";
 export { default as Otp } from "./Otp/Otp";
+export { default as LoadinfSvg } from "./LoadinfSvg/LoadinfSvg";
