@@ -6,16 +6,23 @@ import {
   useState,
 } from "react";
 import { AppContextProps } from "../Types";
+import { useMemo } from "react";
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
 
 export const AppContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [phoneNumber, setPhoneNumber] = useState<number>(0);
 
+  const contextValue = useMemo(
+    () => ({
+      phoneNumber,
+      setPhoneNumber,
+    }),
+    [phoneNumber]
+  );
+
   return (
-    <AppContext.Provider value={{ phoneNumber, setPhoneNumber }}>
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
   );
 };
 

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const Input = styled.input((props) => ({
+  fontFamily: props.theme.fonts.main,
+  fontSize: "18px",
   padding: "10px",
   border: `1px solid ${props.theme.colors.border}`,
   borderRadius: "8px",

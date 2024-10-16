@@ -3,6 +3,7 @@ import { DefaultTheme } from "styled-components";
 export const theme: DefaultTheme = {
   colors: {
     background: "#FAFAFA",
+    ipBackground: "#F6F7F9",
     gradientColor: "linear-gradient(45deg,#0C317C,#1043A6)",
     commonWhite: "#FFFFFF",
     border: "#EAECF0",

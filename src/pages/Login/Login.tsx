@@ -53,7 +53,7 @@ const Login = () => {
   );
 
   return (
-    <Container height={410} width={375}>
+    <Container height={410} width={375} px={42} py={16}>
       <div className="loginLogo">
         <img src={padro} alt="padro-logo" />
       </div>

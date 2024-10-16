@@ -1,10 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { ipApiInstance } from "../instance";
+import { IpDetail } from "../../Types";
 
 const getIpDetail = async (ipAddress: string) => {
-  const data = await ipApiInstance.get(`api/json/${ipAddress}`);
-  return data;
+  const data = await ipApiInstance.get<IpDetail>(`api/json/${ipAddress}`);
+  return data.data;
 };
 
 export const useGetIpGeolocation = () => {
@@ -14,10 +15,8 @@ export const useGetIpGeolocation = () => {
     onError: () => {
       toast.error("مشکلی پیش آمده‌است، لطفا مجددا تلاش کنید.");
     },
-    onSuccess: (data, variables, context) => {
-      console.log("🚀 ~ useGetIpGeolocation ~ data:", data);
-      console.log("🚀 ~ useGetIpGeolocation ~ variables:", variables);
-      console.log("🚀 ~ useGetIpGeolocation ~ context:", context);
+    onSuccess: (variables) => {
+      toast.success(`اطلاعات مربوط به ${variables.ipAddress} پیدا شد.`);
     },
   });
 };

@@ -17,9 +17,9 @@ function App() {
     },
   });
   return (
-    <AppContextProvider>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <AppContextProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={Router} />
         </QueryClientProvider>
@@ -32,8 +32,8 @@ function App() {
           pauseOnHover={true}
           draggable={true}
         />
-      </ThemeProvider>
-    </AppContextProvider>
+      </AppContextProvider>
+    </ThemeProvider>
   );
 }
 

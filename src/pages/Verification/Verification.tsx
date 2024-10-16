@@ -53,7 +53,7 @@ const Verification = () => {
   }, [navigate]);
 
   return (
-    <Container height={423} width={375}>
+    <Container height={423} width={375} px={42} py={16}>
       <div className="verificationHeader">
         <div className="verificationLogo">
           <img src={padro} alt="padro-logo" />

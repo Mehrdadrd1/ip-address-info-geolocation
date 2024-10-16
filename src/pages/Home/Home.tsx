@@ -1,22 +1,28 @@
-import { useCallback, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
   Button,
   Container,
   HelperText,
   Input,
+  IPContent,
   SearchIcon,
   Text,
   Title,
 } from "../../components";
-import "./Home.css";
-import { Controller, useForm } from "react-hook-form";
-import { IPField } from "../../Types";
-import { ipv4Regex, ipv6Regex } from "../../utils";
 import { useGetIpGeolocation } from "../../services";
+import { IpDetail, IPField } from "../../Types";
+import { ipv4Regex, ipv6Regex } from "../../utils";
+import "./Home.css";
 
 const Home = () => {
-  const { mutateAsync: IpRequest, ...rest } = useGetIpGeolocation();
+  const { mutateAsync: IpRequest } = useGetIpGeolocation();
   const [btnIsHovered, setBtnIsHovered] = useState(false);
+  const [ipDetails, setIpDetails] = useState<IpDetail[]>([]);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [maxHeight, setMaxHeight] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const {
     handleSubmit,
@@ -29,20 +35,56 @@ const Home = () => {
     },
   });
 
-  // console.log("isPending", rest.isPending);
-  const handleIpAdrress = useCallback(
-    (data: IPField) => {
+  const handleIpAddress = useCallback(
+    async (data: IPField) => {
       const IpAddress = data.ip;
-      // IpRequest();
-      IpRequest(IpAddress);
-      console.log("🚀 ~ handleIpAdrress ~ data:", data);
+      const response = await IpRequest(IpAddress);
+
+      if (response) {
+        const newIpDetail: IpDetail = response;
+
+        setIpDetails((prev: IpDetail[]) => [...prev, newIpDetail]);
+        if (contentRef.current) {
+          const contentHeight = contentRef.current.scrollHeight;
+          setMaxHeight(contentHeight);
+        }
+        setIsExpanded(true);
+        setTimeout(() => {
+          setShowResults(true);
+        }, 700);
+      }
     },
     [IpRequest]
   );
 
+  useLayoutEffect(() => {
+    if (ipDetails.length > 0) {
+      setIsExpanded(false);
+      setShowResults(false);
+
+      setTimeout(() => {
+        if (contentRef.current) {
+          const contentHeight = contentRef.current.scrollHeight;
+          setMaxHeight(contentHeight);
+        }
+        setIsExpanded(true);
+        setTimeout(() => {
+          setShowResults(true);
+        }, 500);
+      }, 100);
+    }
+  }, [ipDetails]);
+
   return (
     <div className="homeRoot">
-      <Container width={906} height={276}>
+      <Container
+        width={906}
+        isExpanded={isExpanded}
+        maxHeight={maxHeight}
+        height={276}
+        px={50}
+        py={42}
+      >
         <div>
           <Title color="primary">آی پی مد نظر خود را پیدا کنید</Title>
         </div>
@@ -54,7 +96,7 @@ const Home = () => {
             سپس روی "دریافت جزئیات IP" کلیک کنید.
           </Text>
         </div>
-        <form onSubmit={handleSubmit(handleIpAdrress)}>
+        <form onSubmit={handleSubmit(handleIpAddress)}>
           <div className="homeSearch">
             <div style={{ display: "flex", flexGrow: 1 }}>
               <Controller
@@ -66,30 +108,23 @@ const Home = () => {
                     return (
                       ipv4Regex.test(value) ||
                       ipv6Regex.test(value) ||
-                      "IP واردشده معتبر نمی‌باشد. "
+                      "IP واردشده معتبر نمی‌باشد."
                     );
                   },
                 }}
-                render={({ field }) => {
-                  return (
-                    <Input
-                      dir="ltr"
-                      style={{
-                        borderBottomLeftRadius: "0",
-                        borderTopLeftRadius: "0",
-                      }}
-                      {...field}
-                    />
-                  );
-                }}
+                render={({ field }) => (
+                  <Input
+                    dir="ltr"
+                    style={{
+                      borderBottomLeftRadius: "0",
+                      borderTopLeftRadius: "0",
+                    }}
+                    {...field}
+                  />
+                )}
               />
             </div>
-            <div
-              style={{
-                width: "72px",
-                display: "flex",
-              }}
-            >
+            <div style={{ width: "72px", display: "flex" }}>
               <Button
                 disabled={!isValid || !isDirty || isSubmitting}
                 type="submit"
@@ -108,6 +143,15 @@ const Home = () => {
           </div>
           {errors && <HelperText>{errors.ip?.message}</HelperText>}
         </form>
+        <div ref={contentRef}>
+          {ipDetails.map((ipDetail, index) => (
+            <IPContent
+              key={index}
+              ipDetail={ipDetail}
+              isVisible={showResults}
+            />
+          ))}
+        </div>
       </Container>
     </div>
   );

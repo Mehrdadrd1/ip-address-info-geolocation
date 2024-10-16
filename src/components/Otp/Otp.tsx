@@ -93,7 +93,7 @@ const Otp: FC<OtpFieldProps> = (props) => {
         width: "100%",
       }}
     >
-      {config.map((length, index) => (
+      {config.map((_, index) => (
         <div style={{ marginInline: 10, width: "64px", height: "48px" }}>
           <Input
             key={index}
