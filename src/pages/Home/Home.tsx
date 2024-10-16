@@ -14,6 +14,7 @@ import { useGetIpGeolocation } from "../../services";
 import { IpDetail, IPField } from "../../Types";
 import { ipv4Regex, ipv6Regex } from "../../utils";
 import "./Home.css";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const { mutateAsync: IpRequest } = useGetIpGeolocation();
@@ -23,6 +24,7 @@ const Home = () => {
   const [showResults, setShowResults] = useState(false);
   const [maxHeight, setMaxHeight] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
+  const callTimestamps = useRef<number[]>([]);
 
   const {
     handleSubmit,
@@ -37,6 +39,25 @@ const Home = () => {
 
   const handleIpAddress = useCallback(
     async (data: IPField) => {
+      const now = Date.now();
+
+      callTimestamps.current = callTimestamps.current.filter(
+        (timestamp) => now - timestamp < 60000
+      );
+
+      if (callTimestamps.current.length >= 5) {
+        const oldestTimeStamp = callTimestamps.current[0];
+        const timeElapsed = now - oldestTimeStamp;
+        const timeLeft = Math.ceil((60000 - timeElapsed) / 1000); // Convert to seconds
+
+        toast.info(
+          `شما به محدودیت ۵ درخواست در دقیقه رسیده‌اید، لطفا "${timeLeft}" ثانیه صبر کنید. با تشکر.`
+        );
+        return;
+      }
+
+      callTimestamps.current.push(now);
+
       const IpAddress = data.ip;
       const response = await IpRequest(IpAddress);
 
